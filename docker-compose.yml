@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  openvpn:
+    build:
+      context: vpn
+      dockerfile: ../openvpn.Dockerfile
+    ports:
+      - 31280:3128
+    cap_add:
+      - NET_ADMIN
+    devices:
+      - "/dev/net/tun:/dev/net/tun"
+
+  # squid:
+  #   build:
+  #     context: squid
+  #     dockerfile: ../squid.Dockerfile
+  #   network_mode: "service:openvpn"
+  #   depends_on:
+  #     - openvpn
+
+  tinyproxy:
+    build:
+      context: tinyproxy
+      dockerfile: ../tinyproxy.Dockerfile
+    environment:
+      PROXY_USER: "${PROXY_USERNAME}"
+      PROXY_PASS: "${PROXY_USERNAME}"
+    network_mode: "service:openvpn"
+    depends_on:
+      - openvpn
