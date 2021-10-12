@@ -25,7 +25,7 @@ services:
       dockerfile: ../tinyproxy.Dockerfile
     environment:
       PROXY_USER: "${PROXY_USERNAME}"
-      PROXY_PASS: "${PROXY_USERNAME}"
+      PROXY_PASS: "${PROXY_PASSWORD}"
     network_mode: "service:openvpn"
     depends_on:
       - openvpn
